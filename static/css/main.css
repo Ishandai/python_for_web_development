@@ -1,0 +1,426 @@
+/* =================================================================
+   MAIN STYLESHEET - Ishan Careers Redesign
+   =================================================================
+   This file contains all the styles for the new cybersecurity-inspired
+   dark theme. It is organized into logical sections for maintainability.
+*/
+
+/* =================================================================
+   1. THEME & ROOT VARIABLES
+   =================================================================
+   Defining colors and base styles in :root allows for easy theme
+   management and consistency across the entire site.
+*/
+:root {
+  --bg-primary: #0a0a0a; /* Primary very dark background */
+  --bg-secondary: #141414; /* Slightly lighter background for surfaces */
+  --bg-glass: rgba(20, 20, 20, 0.6); /* Translucent background for glass effect */
+  --text-primary: #e2e8f0; /* Primary light text color */
+  --text-secondary: #94a3b8; /* Muted text for subtitles and secondary info */
+  --accent-primary: #10b981; /* Bright green for primary actions and highlights */
+  --accent-hover: #34d399; /* Lighter green for hover states */
+  --border-color: rgba(255, 255, 255, 0.1); /* Subtle border for glass panels */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* =================================================================
+   2. GLOBAL & RESET STYLES
+   =================================================================
+   Basic resets and global styles for the body, typography, and links.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  margin: 0;
+  padding-top: 80px; /* Reserve space for the fixed header */
+  scroll-behavior: smooth;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* =================================================================
+   3. HEADER / NAVIGATION BAR
+   =================================================================
+   Styles for the fixed, responsive, glassmorphism navigation bar.
+   The background changes on scroll via a class added by JavaScript.
+*/
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem 2rem;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.main-header .container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Scrolled state for the header */
+.main-header.scrolled {
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+}
+.header-logo:hover {
+  color: var(--text-primary);
+}
+
+.header-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  position: relative;
+  color: var(--text-secondary);
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+/* Underline animation for nav links */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-primary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Hamburger menu for mobile */
+.hamburger-menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger-menu span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--text-primary);
+  margin: 5px 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* =================================================================
+   4. BUTTONS
+   =================================================================
+   Reusable button styles for primary and secondary actions.
+*/
+.btn-primary, .btn-secondary {
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  border-color: var(--accent-primary);
+}
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+.btn-secondary:hover {
+  background-color: var(--border-color);
+}
+
+/* =================================================================
+   5. MODAL STYLES
+   =================================================================
+   Styles for the login/signup modal overlay and container.
+   Uses flexbox for centering and transitions for smooth animations.
+*/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background-color: var(--bg-secondary);
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-container {
+  transform: scale(1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.modal-title {
+  margin-bottom: 0.5rem;
+}
+.modal-subtitle {
+  color: var(--text-secondary);
+}
+
+/* Form styles inside the modal */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+
+.form-group-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.form-group-inline.space-between {
+  justify-content: space-between;
+}
+
+.btn-primary-modal {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn-primary-modal:hover {
+  background-color: var(--accent-hover);
+}
+
+.modal-switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+}
+
+/* =================================================================
+   6. JOB LIST SECTION
+   =================================================================
+   Dedicated layout rules for job cards to prevent text/button overlap
+   and keep each card clearly separated.
+*/
+.job-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.job-card {
+  border: 1.5px solid var(--accent-primary);
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  padding: 1rem 1.1rem;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+}
+
+.job-card-header {
+  margin-bottom: 0.7rem;
+}
+
+.job-card-title {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.15rem;
+}
+
+.job-card-company {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.job-card-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  align-items: center;
+  color: var(--text-secondary);
+  margin-bottom: 0.85rem;
+}
+
+.job-card-details span {
+  white-space: nowrap;
+}
+
+.job-card-apply {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  min-width: 112px;
+  text-align: center;
+  color: #042312;
+}
+
+.btn-primary,
+.btn-primary:visited,
+.btn-primary:hover,
+.btn-primary:focus,
+.job-card-apply,
+.job-card-apply:hover,
+.job-card-apply:focus {
+  color: #042312;
+  text-decoration: none;
+}
+
+/* =================================================================
+   7. RESPONSIVENESS
+   =================================================================
+   Media queries to ensure the layout adapts to smaller screens.
+*/
+@media (max-width: 992px) {
+  .header-nav, .header-actions {
+    display: none; /* Hide desktop nav and actions */
+  }
+  .hamburger-menu {
+    display: block; /* Show hamburger menu */
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 70px;
+  }
+  .main-header {
+    padding: 0.75rem 1rem;
+  }
+  .modal-container {
+    width: 90%;
+    padding: 2rem 1.5rem;
+  }
+  .job-card-details {
+    white-space: normal;
+  }
+  .job-card-apply {
+    width: 100%;
+    margin-left: 0;
+  }
+}

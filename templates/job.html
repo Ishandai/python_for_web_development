@@ -2,101 +2,72 @@
 
 {% block title %}{{ job.title }} | Ishan careers{% endblock %}
 
-{% block extra_styles %}
-      .hero-panel {
-        border-radius: 32px;
-        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
-        overflow: hidden;
-      }
-
-      .hero-banner {
-        min-height: 240px;
-        background:
-          linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(22, 163, 74, 0.48)),
-          url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80');
-        background-size: cover;
-        background-position: center;
-      }
-
-      .soft-divider {
-        border-color: rgba(148, 163, 184, 0.22);
-      }
-{% endblock %}
-
 {% block content %}
-    <main class="container page-shell pb-5">
-      <section class="hero-panel">
-        <div class="hero-banner"></div>
-        <div class="p-4 p-md-5">
-          <div class="row g-4 align-items-start">
-            <div class="col-lg-8">
-              <span class="job-pill mb-3">Application details</span>
-              <h1 class="display-5 fw-bold mb-3">{{ job.title }}</h1>
-              <p class="lead text-secondary mb-4">{{ job.description }}</p>
+  <main class="container py-5">
+    <div class="job-detail-grid">
+      <!-- Main Content Column -->
+      <div class="job-detail-main">
+        <div class="glass-card p-4 p-md-5">
+          <h1 class="display-5 fw-bold mb-3">{{ job.title }}</h1>
+          <p class="lead text-secondary mb-4">{{ job.description }}</p>
 
-              <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                  <div class="info-card p-3 h-100">
-                    <div class="detail-label">Location</div>
-                    <div class="detail-value">{{ job.location }}</div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="info-card p-3 h-100">
-                    <div class="detail-label">Salary</div>
-                    <div class="detail-value">{{ job.salary }}</div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="info-card p-3 h-100">
-                    <div class="detail-label">Job ID</div>
-                    <div class="detail-value">#{{ job.id }}</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="info-card p-4 mb-4">
-                <div class="section-title mb-3">Role overview</div>
-                <p class="mb-0 text-secondary">
-                  This role is tailored for the selected position, so when you click Apply on a different card, the content on this page updates automatically for that job.
-                </p>
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <div class="detail-card">
+                <div class="detail-label">Location</div>
+                <div class="detail-value">{{ job.location }}</div>
               </div>
             </div>
-
-            <div class="col-lg-4">
-              <div class="info-card p-4 mb-4">
-                <div class="section-title mb-3">What you'll do</div>
-                <ul class="tag-list ps-3 mb-0 text-secondary">
-                  {% for item in job.responsibilities %}
-                    <li>{{ item }}</li>
-                  {% endfor %}
-                </ul>
+            <div class="col-md-4">
+              <div class="detail-card">
+                <div class="detail-label">Salary</div>
+                <div class="detail-value">{{ job.salary }}</div>
               </div>
-
-              <div class="info-card p-4 mb-4">
-                <div class="section-title mb-3">What you need</div>
-                <ul class="tag-list ps-3 mb-0 text-secondary">
-                  {% for item in job.requirements %}
-                    <li>{{ item }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-
-              <div class="info-card p-4">
-                <div class="section-title mb-3">Next step</div>
-                <p class="text-secondary mb-3">
-                  Review the details and continue when you're ready.
-                </p>
-                <a class="btn btn-success w-100 py-2" href="mailto:jobs@ishancareers.com?subject=Application%20for%20{{ job.title | urlencode }}">
-                  Apply now
-                </a>
-                <a class="btn btn-outline-secondary w-100 py-2 mt-2" href="/">
-                  Back to jobs
-                </a>
+            </div>
+            <div class="col-md-4">
+              <div class="detail-card">
+                <div class="detail-label">Job ID</div>
+                <div class="detail-value">#{{ job.id }}</div>
               </div>
             </div>
           </div>
+
+          <div class="glass-card-inner mb-4">
+            <h4 class="section-title-minor">Role Overview</h4>
+            <p class="mb-0 text-secondary">
+              This role is tailored for the selected position, so when you click Apply on a different card, the content on this page updates automatically for that job.
+            </p>
+          </div>
         </div>
-      </section>
-    </main>
+      </div>
+
+      <!-- Sidebar Column -->
+      <div class="job-detail-sidebar">
+        <div class="glass-card p-4 mb-4">
+          <h4 class="section-title-minor">What you'll do</h4>
+          <ul class="details-list">
+            {% for item in job.responsibilities %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="glass-card p-4 mb-4">
+          <h4 class="section-title-minor">What you need</h4>
+          <ul class="details-list">
+            {% for item in job.requirements %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="glass-card p-4 sticky-sidebar">
+          <h4 class="section-title-minor">Next Step</h4>
+          <p class="text-secondary mb-3">Review the details and continue when you're ready.</p>
+          <a class="btn-primary w-100 mb-2" href="mailto:jobs@ishancareers.com?subject=Application%20for%20{{ job.title | urlencode }}">Apply Now</a>
+          <a class="btn-secondary w-100" href="{{ url_for('hello_world') }}">Back to Jobs</a>
+        </div>
+      </div>
+    </div>
+  </main>
 {% endblock %}

@@ -1,158 +1,121 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Ishan careers{% endblock %}</title>
+    <!-- Bootstrap CSS (kept for grid system and utilities) -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
-    <style>
-      :root {
-        --ink: #0f172a;
-        --muted: #64748b;
-        --surface: rgba(255, 255, 255, 0.82);
-        --surface-strong: #ffffff;
-        --accent: #16a34a;
-        --accent-dark: #15803d;
-        --line: rgba(148, 163, 184, 0.24);
-      }
-
-      body {
-        min-height: 100vh;
-        color: var(--ink);
-        scroll-behavior: smooth;
-        background:
-          radial-gradient(circle at top left, rgba(22, 163, 74, 0.18), transparent 28%),
-          radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 24%),
-          linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-      }
-
-      #logo {
-        font-size: 30px;
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        margin-bottom: 8px;
-      }
-
-      .page-shell {
-        max-width: 1180px;
-      }
-
-      .hero-panel,
-      .info-card {
-        background: var(--surface);
-        backdrop-filter: blur(18px);
-        border: 1px solid var(--line);
-        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
-      }
-
-      .hero-panel {
-        border-radius: 32px;
-        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
-        overflow: hidden;
-      }
-
-      .info-card {
-        background: var(--surface-strong);
-        border-radius: 24px;
-      }
-
-      .section-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-      }
-
-      .detail-label {
-        color: var(--muted);
-        font-size: 0.92rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      .detail-value {
-        font-weight: 700;
-      }
-
-      .job-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.45rem 0.8rem;
-        border-radius: 999px;
-        background: rgba(22, 163, 74, 0.12);
-        color: var(--accent-dark);
-        font-weight: 600;
-        font-size: 0.92rem;
-      }
-
-      .tag-list li {
-        margin-bottom: 0.65rem;
-      }
-
-      .soft-divider {
-        border-color: rgba(148, 163, 184, 0.22);
-      }
-
-      {% block extra_styles %}
-         
-      {% endblock %}
-    </style>
+    <!-- Custom Stylesheet for the new design -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary mb-4 mt-4 mx-3 mx-md-4 rounded-4 shadow-sm">
-      <div class="container-fluid">
-        <a id="logo" class="navbar-brand" href="{{ url_for('hello_world') }}">Ishan careers</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{{ url_for('hello_world') }}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('hello_world') }}#about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('hello_world') }}#apply-section">Jobs</a>
-            </li>
-           
-          </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+    <!-- =================================================================
+    MODAL OVERLAY & STRUCTURES
+    These are hidden by default and shown with JavaScript.
+    Placing them in base.html makes them available on every page.
+    ================================================================== -->
+    <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+      <!-- Sign Up Modal -->
+      <div class="modal-container" id="signup-modal">
+        <button class="modal-close-btn" aria-label="Close sign up modal" onclick="closeModal()">×</button>
+        <div class="modal-header">
+          <h2 class="modal-title">Create Account</h2>
+          <p class="modal-subtitle">Join our community of innovators.</p>
         </div>
+        <form id="signup-form" onsubmit="handleSignup(event)">
+          <div class="form-group">
+            <label for="signup-name">Name</label>
+            <input type="text" id="signup-name" name="name" placeholder="Enter your full name" required />
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" name="password" placeholder="Create a strong password" required />
+          </div>
+          <div class="form-group">
+            <label for="signup-confirm-password">Confirm Password</label>
+            <input type="password" id="signup-confirm-password" name="confirm_password" placeholder="Repeat your password" required />
+          </div>
+          <div class="form-group-inline">
+            <input type="checkbox" id="terms" name="terms" required />
+            <label for="terms">I agree to the <a href="#">Terms of Service</a></label>
+          </div>
+          <button type="submit" class="btn-primary-modal">Create Account</button>
+        </form>
+        <p class="modal-switch">Already have an account? <a href="#" onclick="openModal('login-modal', event)">Log In</a></p>
       </div>
-    </nav>
+
+      <!-- Login Modal -->
+      <div class="modal-container" id="login-modal">
+        <button class="modal-close-btn" aria-label="Close login modal" onclick="closeModal()">×</button>
+        <div class="modal-header">
+          <h2 class="modal-title">Welcome Back</h2>
+          <p class="modal-subtitle">Log in to access your account.</p>
+        </div>
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" name="password" placeholder="Enter your password" required />
+          </div>
+          <div class="form-group-inline space-between">
+            <div>
+              <input type="checkbox" id="remember" name="remember" />
+              <label for="remember">Remember Me</label>
+            </div>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn-primary-modal">Log In</button>
+        </form>
+        <p class="modal-switch">Don't have an account? <a href="#" onclick="openModal('signup-modal', event)">Sign Up</a></p>
+      </div>
+    </div>
+
+    <!-- =================================================================
+    MODERN NAVIGATION BAR
+    Sticky, responsive, and uses glassmorphism.
+    ================================================================== -->
+    <header class="main-header" id="main-header">
+      <div class="container-fluid">
+        <a class="header-logo" href="{{ url_for('hello_world') }}">IshanCareers</a>
+        <nav class="header-nav">
+          <a href="{{ url_for('hello_world') }}" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a>
+          <a href="{{ url_for('hello_world') }}#jobs" class="nav-link">Jobs</a>
+          <a href="#" class="nav-link">Packages</a>
+          <a href="{{ url_for('hello_world') }}#about" class="nav-link">About</a>
+          <a href="#" class="nav-link">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button class="btn-secondary" onclick="openModal('login-modal')">Login</button>
+          <button class="btn-primary" onclick="openModal('signup-modal')">Sign Up</button>
+        </div>
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
 
     {% block content %}{% endblock %}
 
     {% include 'footer.html' %}
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FkN7M6h7J4R9f2pT0n4mT0x6wZ5V3QK9pG9l3K5r9K5q4gYv0rQ3m8Y2c1Qw4R0J"
-      crossorigin="anonymous"
-    ></script>
-    {% block extra_scripts %}{% endblock %}
+    <!-- Bootstrap JS (optional, but useful for some utilities if needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FkN7M6h7J4R9f2pT0n4mT0x6wZ5V3QK9pG9l3K5r9K5q4gYv0rQ3m8Y2c1Qw4R0J" crossorigin="anonymous"></script>
+    <!-- Custom JavaScript for interactivity -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
 </html>
