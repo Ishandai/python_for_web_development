@@ -1,73 +1,78 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}{{ job.title }} | Ishan careers{%
+endblock %} {% block content %}
+<main class="container py-5">
+  <div class="job-detail-grid">
+    <!-- Main Content Column -->
+    <div class="job-detail-main">
+      <div class="glass-card p-4 p-md-5">
+        <h1 class="display-5 fw-bold mb-3">{{ job.title }}</h1>
+        <p class="lead text-secondary mb-4">{{ job.description }}</p>
 
-{% block title %}{{ job.title }} | Ishan careers{% endblock %}
-
-{% block content %}
-  <main class="container py-5">
-    <div class="job-detail-grid">
-      <!-- Main Content Column -->
-      <div class="job-detail-main">
-        <div class="glass-card p-4 p-md-5">
-          <h1 class="display-5 fw-bold mb-3">{{ job.title }}</h1>
-          <p class="lead text-secondary mb-4">{{ job.description }}</p>
-
-          <div class="row g-3 mb-4">
-            <div class="col-md-4">
-              <div class="detail-card">
-                <div class="detail-label">Location</div>
-                <div class="detail-value">{{ job.location }}</div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="detail-card">
-                <div class="detail-label">Salary</div>
-                <div class="detail-value">{{ job.salary }}</div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="detail-card">
-                <div class="detail-label">Job ID</div>
-                <div class="detail-value">#{{ job.id }}</div>
-              </div>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="detail-card">
+              <div class="detail-label">Location</div>
+              <div class="detail-value">{{ job.location }}</div>
             </div>
           </div>
-
-          <div class="glass-card-inner mb-4">
-            <h4 class="section-title-minor">Role Overview</h4>
-            <p class="mb-0 text-secondary">
-              This role is tailored for the selected position, so when you click Apply on a different card, the content on this page updates automatically for that job.
-            </p>
+          <div class="col-md-4">
+            <div class="detail-card">
+              <div class="detail-label">Salary</div>
+              <div class="detail-value">{{ job.salary }}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="detail-card">
+              <div class="detail-label">Job ID</div>
+              <div class="detail-value">#{{ job.id }}</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Sidebar Column -->
-      <div class="job-detail-sidebar">
-        <div class="glass-card p-4 mb-4">
-          <h4 class="section-title-minor">What you'll do</h4>
-          <ul class="details-list">
-            {% for item in job.responsibilities %}
-              <li>{{ item }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <div class="glass-card p-4 mb-4">
-          <h4 class="section-title-minor">What you need</h4>
-          <ul class="details-list">
-            {% for item in job.requirements %}
-              <li>{{ item }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <div class="glass-card p-4 sticky-sidebar">
-          <h4 class="section-title-minor">Next Step</h4>
-          <p class="text-secondary mb-3">Review the details and continue when you're ready.</p>
-          <a class="btn-primary w-100 mb-2" href="mailto:jobs@ishancareers.com?subject=Application%20for%20{{ job.title | urlencode }}">Apply Now</a>
-          <a class="btn-secondary w-100" href="{{ url_for('hello_world') }}">Back to Jobs</a>
+        <div class="glass-card-inner mb-4">
+          <h4 class="section-title-minor">Role Overview</h4>
+          <p class="mb-0 text-secondary">
+            This role is tailored for the selected position, so when you click
+            Apply on a different card, the content on this page updates
+            automatically for that job.
+          </p>
         </div>
       </div>
     </div>
-  </main>
+
+    <!-- Sidebar Column -->
+    <div class="job-detail-sidebar">
+      <div class="glass-card p-4 mb-4">
+        <h4 class="section-title-minor">What you'll do</h4>
+        <ul class="details-list">
+          {% for item in job.responsibilities %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="glass-card p-4 mb-4">
+        <h4 class="section-title-minor">What you need</h4>
+        <ul class="details-list">
+          {% for item in job.requirements %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="glass-card p-4 sticky-sidebar">
+        <h4 class="section-title-minor">Next Step</h4>
+        <p class="text-secondary mb-3">
+          Review the details and continue when you're ready.
+        </p>
+        {% set mail_subject = "Application for " + job.title %}
+        {% set mail_body = "My name: [Your Name Here]\nMy resume link: [Resume Link]\nMy LinkedIn: [LinkedIn Profile]" %}
+        <a class="btn-primary w-100 mb-2" href="mailto:ishanchaulagain30@gmail.com?subject={{ mail_subject | urlencode }}&body={{ mail_body | urlencode }}">Apply Now</a>
+        <a class="btn-secondary w-100" href="{{ url_for('hello_world') }}"
+          >Back to Jobs</a
+        >
+      </div>
+    </div>
+  </div>
+</main>
 {% endblock %}

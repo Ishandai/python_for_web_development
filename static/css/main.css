@@ -392,7 +392,108 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* =================================================================
-   7. RESPONSIVENESS
+   7. FOOTER SECTION
+   =================================================================
+   Dark, layered footer with the link groups visually shifted to the right.
+*/
+.main-footer {
+  margin-top: 4rem;
+  padding: 3rem 0 2rem;
+  background:
+    linear-gradient(180deg, rgba(20, 20, 20, 0.92), rgba(10, 10, 10, 0.98)),
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.16), transparent 28%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-logo {
+  display: inline-block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.footer-logo:hover {
+  color: var(--text-primary);
+}
+
+.footer-tagline {
+  max-width: 420px;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.footer-socials a:hover {
+  background: rgba(16, 185, 129, 0.14);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: var(--text-primary);
+}
+
+.footer-heading {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  margin-bottom: 0.7rem;
+}
+
+.footer-list a {
+  color: var(--text-secondary);
+}
+
+.footer-list a:hover {
+  color: var(--accent-hover);
+}
+
+.footer-list.align-end {
+  display: inline-block;
+}
+
+.footer-bottom {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+}
+
+.copyright-text {
+  margin: 0;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* =================================================================
+   8. RESPONSIVENESS
    =================================================================
    Media queries to ensure the layout adapts to smaller screens.
 */
@@ -422,5 +523,13 @@ h1, h2, h3, h4, h5, h6 {
   .job-card-apply {
     width: 100%;
     margin-left: 0;
+  }
+
+  .footer-bottom {
+    justify-content: flex-start;
+  }
+
+  .footer-list.align-end {
+    display: block;
   }
 }
