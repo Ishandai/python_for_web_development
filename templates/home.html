@@ -36,13 +36,12 @@
         mollit anim id est laborum. lorem ipsum dolor sit amet, consectetur
         adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
       </p>
       <div style="text-align: center">
-        <button  class="btn btn-primary mb-3" id="b1" onclick="window.location.href = '/about'">
+        <button class="btn btn-primary mb-3" id="b1" onclick="window.location.href = '{{ url_for('hello_world') }}#about'">
           contact us
         </button>
         <div id="apply-section">
@@ -62,7 +61,7 @@
                     </p>
                   </div>
                   <div class="col-md-3 text-md-end mt-3 mt-md-0">
-                    <a href="/apply/{{ job.id }}" class="btn btn-outline-primary">
+                    <a href="{{ url_for('apply', job_id=job.id) }}" class="btn btn-outline-primary">
                       Apply
                     </a>
                   </div>
@@ -72,10 +71,6 @@
           {% endfor %}
           </div>
         </div>
-        <p class="copyright">
-          
-          Copyright 2026 , Ishan Careers. All rights reserved.
-        </p>
       </div>
     </div>
 {% endblock %}
