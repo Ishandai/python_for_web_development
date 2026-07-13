@@ -1,10 +1,27 @@
+import os
+from urllib.parse import quote_plus
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 
+
+load_dotenv()
+
+mysql_user = os.getenv("MYSQL_USER")
+mysql_password = os.getenv("MYSQL_PASSWORD")
+mysql_host = os.getenv("MYSQL_HOST")
+mysql_port = os.getenv("MYSQL_PORT")
+mysql_database = os.getenv("MYSQL_DATABASE")
+mysql_ssl_ca = os.getenv("MYSQL_SSL_CA")
+
+if not all([mysql_user, mysql_password, mysql_host, mysql_port, mysql_database, mysql_ssl_ca]):
+    raise RuntimeError("Missing one or more MySQL environment variables in .env")
+
 engine = create_engine(
-    "mysql+pymysql://root:password@localhost:3306/jobs",
+    f"mysql+pymysql://{quote_plus(mysql_user)}:{quote_plus(mysql_password)}@{mysql_host}:{mysql_port}/{mysql_database}",
     connect_args={
         "ssl": {
-            "ca": r"C:\Users\User\Downloads\ca (1).pem"
+            "ca": mysql_ssl_ca
         }
     }
 )
