@@ -88,20 +88,24 @@ function closeModal() {
  * @param {Event} event - The form submission event.
  */
 function handleSignup(event) {
-  event.preventDefault(); // Prevent the form from actually submitting
+  event.preventDefault();
   const form = event.target;
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
 
-  console.log('--- Signup Form Submitted ---');
-  console.log('This is where you would send a `fetch` request to /signup.');
-  console.log('Form Data:', data);
-
-  // Placeholder for API call
-  alert(`Signup attempt for ${data.email}. Check the console for data. The modal will now close.`);
-  closeModal();
+  fetch('/signup', { method: 'POST', body: new FormData(form) })
+    .then(res => res.json())
+    .then(result => {
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
+      form.innerHTML = '<p style="text-align:center; color: var(--accent-primary); font-weight:600;">✓ Account created! Logging you in...</p>';
+      setTimeout(() => {
+        closeModal();
+        window.location.reload();
+      }, 1200);
+    })
+    .catch(err => console.error('Signup failed:', err));
 }
-
 /**
  * Handles the login form submission.
  * @param {Event} event - The form submission event.
@@ -109,13 +113,15 @@ function handleSignup(event) {
 function handleLogin(event) {
   event.preventDefault();
   const form = event.target;
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
 
-  console.log('--- Login Form Submitted ---');
-  console.log('This is where you would send a `fetch` request to /login.');
-  console.log('Form Data:', data);
-
-  alert(`Login attempt for ${data.email}. Check the console for data. The modal will now close.`);
-  closeModal();
+  fetch('/signup', { method: 'POST', body: new FormData(form) })
+    .then(res => res.json())
+    .then(result => {
+      if (result.error) { alert(result.error); return; }
+      window.location.reload();
+    })
+    .catch(err => {
+      console.error('Signup failed:', err);
+      alert('Something went wrong. Check the console.');
+    });
 }
